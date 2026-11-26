@@ -1,0 +1,42 @@
+---
+title: Withdrawals SDK Reference
+description: Read withdrawal history through the API-key SDK resource.
+order: 39
+section: SDK
+---
+
+In `@offerhub/sdk` 3.0.0, `sdk.withdrawals` is the history resource. It is separate from seller order payouts, which use `sdk.payouts` and a user session JWT. Withdrawal history uses an API key with the `read` scope.
+
+## Methods
+
+| Method | HTTP route | Auth | Idempotency | Fields |
+| --- | --- | --- | --- | --- |
+| `sdk.withdrawals.list(...)` | `GET /withdrawals` | API key, `read` scope | Not applicable |  |
+| `sdk.withdrawals.get(id)` | `GET /withdrawals/:id` | API key, `read` scope | Not applicable | `id` path parameter |
+
+## Withdrawal history statuses
+
+`WITHDRAWAL_CREATED`, `WITHDRAWAL_COMMITTED`, `WITHDRAWAL_PENDING`, `WITHDRAWAL_PENDING_USER_ACTION`, `WITHDRAWAL_COMPLETED`, `WITHDRAWAL_FAILED`, `WITHDRAWAL_CANCELED`.
+
+These are history record statuses, distinct from the BlindPay order-payout statuses. For the seller payout lifecycle, see [Payouts SDK](/docs/sdk/payouts).
+
+## Examples
+
+```typescript
+import { OfferHubSDK } from "@offerhub/sdk";
+
+const sdk = new OfferHubSDK({
+  apiUrl: "https://your-orchestrator.example",
+  apiKey: "ohk_live_your_api_key",
+});
+
+const history = await sdk.withdrawals.list();
+const withdrawal = await sdk.withdrawals.get("wd_abc123");
+```
+
+## Related
+
+- [Seller Bank Payouts guide](/docs/guide/withdrawals) — KYC and BlindPay payout flow.
+- [Withdrawal history state machine](/docs/guide/state-machines#withdrawal) — lifecycle of withdrawal history records.
+- [Payouts SDK](/docs/sdk/payouts) — `sdk.payouts.get`, `prepare`, `submit`, and `retry`.
+- [Balance SDK](/docs/sdk/balance) — API-key balance operations.

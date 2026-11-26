@@ -1,30 +1,29 @@
+import { StatusBadge } from "@/components/ui/StatusBadge";
+import type { StatusTone } from "@/components/ui/status-colors";
 import { cn } from "@/lib/cn";
-import type { HttpMethod } from "@/data/api-schema";
 
-const METHOD_STYLES: Record<HttpMethod, { color: string; bg: string }> = {
-  GET: { color: "var(--color-success)", bg: "rgba(22,163,74,0.12)" },
-  POST: { color: "var(--color-primary)", bg: "rgba(20,154,155,0.12)" },
-  PUT: { color: "var(--color-warning)", bg: "rgba(217,119,6,0.12)" },
-  DELETE: { color: "var(--color-error)", bg: "rgba(220,38,38,0.12)" },
+export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
+const METHOD_TONES: Record<HttpMethod, StatusTone> = {
+  GET: "success",
+  POST: "primary",
+  PUT: "warning",
+  PATCH: "primary",
+  DELETE: "danger",
 };
 
 interface MethodBadgeProps {
-  method: HttpMethod;
+  method: string;
   className?: string;
 }
 
 export function MethodBadge({ method, className }: MethodBadgeProps) {
-  const style = METHOD_STYLES[method];
+  const normalized = method.toUpperCase() as HttpMethod;
+  const tone = METHOD_TONES[normalized] ?? "default";
 
   return (
-    <span
-      className={cn(
-        "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold font-mono",
-        className
-      )}
-      style={{ color: style.color, background: style.bg }}
-    >
-      {method}
-    </span>
+    <StatusBadge variant={tone} className={cn("font-mono", className)}>
+      {normalized}
+    </StatusBadge>
   );
 }

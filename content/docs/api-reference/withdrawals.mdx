@@ -1,0 +1,39 @@
+---
+title: Withdrawals History Endpoints
+description: Read withdrawal history and status using an API key with read scope.
+order: 57
+section: API Reference
+---
+
+Withdrawal history is distinct from BlindPay order payouts. These read-only endpoints use an API key with the `read` scope.
+
+## Endpoints
+
+| Method | Path | Auth | Idempotency | Request fields |
+| --- | --- | --- | --- | --- |
+| `GET` | `/withdrawals` | API key, `read` scope | Not applicable |  |
+| `GET` | `/withdrawals/:id` | API key, `read` scope | Not applicable | `id` path parameter |
+
+## GET /withdrawals
+
+<Endpoint method="GET" path="/api/v1/withdrawals" scope="read" />
+
+Lists withdrawal history.
+
+## GET /withdrawals/:id
+
+<Endpoint method="GET" path="/api/v1/withdrawals/:id" scope="read" />
+
+Retrieves one withdrawal history record. The `id` is supplied in the path.
+
+## Withdrawal history statuses
+
+`WITHDRAWAL_CREATED`, `WITHDRAWAL_COMMITTED`, `WITHDRAWAL_PENDING`, `WITHDRAWAL_PENDING_USER_ACTION`, `WITHDRAWAL_COMPLETED`, `WITHDRAWAL_FAILED`, `WITHDRAWAL_CANCELED`.
+
+These are withdrawal history statuses, not the statuses used for BlindPay order payouts. See [Payouts endpoints](/docs/api-reference/payouts) for the order-payout lifecycle.
+
+## Related
+
+- [Withdrawals SDK](/docs/sdk/withdrawals) — list and retrieve withdrawal history with `sdk.withdrawals`.
+- [Balance endpoints](/docs/api-reference/balance) — balance operations and scopes.
+- [Seller Bank Payouts guide](/docs/guide/withdrawals) — released-order payout workflow.

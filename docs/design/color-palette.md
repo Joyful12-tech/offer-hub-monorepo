@@ -43,7 +43,7 @@ This document provides a comprehensive reference for the OFFER-HUB color system.
 ## Neutral Palette
 
 ### Background
-- **Token:** `--color-background`
+- **Token:** `--color-bg-base`
 - **Hex:** `#F1F3F7`
 - **RGB:** `rgb(241, 243, 247)`
 - **HSL:** `hsl(220, 25%, 96%)`
@@ -58,7 +58,7 @@ This document provides a comprehensive reference for the OFFER-HUB color system.
 - **RGB:** `rgb(25, 33, 61)`
 - **HSL:** `hsl(227, 42%, 17%)`
 - **Usage:** Headings, primary body content
-- **Contrast:** 12.5:1 on background (AAA)
+- **Contrast:** 14.25:1 on background (AAA)
 
 #### Text Secondary
 - **Token:** `--color-text-secondary`
@@ -66,7 +66,7 @@ This document provides a comprehensive reference for the OFFER-HUB color system.
 - **RGB:** `rgb(109, 117, 143)`
 - **HSL:** `hsl(226, 14%, 49%)`
 - **Usage:** Captions, subtitles, placeholders, inactive labels
-- **Contrast:** 4.8:1 on background (AA)
+- **Contrast:** 4.12:1 on background — below the 4.5:1 bar for body text, so use only for captions and placeholders
 
 ---
 
@@ -74,30 +74,36 @@ This document provides a comprehensive reference for the OFFER-HUB color system.
 
 ### Success (Green)
 - **Token:** `--color-success`
-- **Hex:** `#16a34a`
-- **RGB:** `rgb(22, 163, 74)`
-- **HSL:** `hsl(142, 76%, 36%)`
-- **Usage:** Success messages, completed states, positive indicators
-- **Common Pattern:** `bg-success/10 text-success` for badges
-- **Accessibility:** AA compliant on white backgrounds
+- **Light hex:** `#166534` | **Dark hex:** `#4ade80`
+- **Usage:** Success messages, completed states, positive indicators; icon and text use in Callout tip, Badge, CommandLine copied state
+- **Common Pattern:** `bg-[color-mix(in_srgb,var(--color-success)_10%,transparent)] text-theme-success` for badges
+- **Accessibility:**
+  - Light `#166534` on `#F1F3F7`: **6.42:1** ✓ AA (was `#16a34a` = 2.97:1 ✗)
+  - Light `#166534` on `#ffffff`: **7.13:1** ✓ AA
+  - Dark `#4ade80` on `#242433`: **8.76:1** ✓ AAA
+  - Dark `#4ade80` on `#2e2e3f`: **7.63:1** ✓ AAA
 
-### Warning (Amber)
+### Warning (Amber-Brown)
 - **Token:** `--color-warning`
-- **Hex:** `#d97706`
-- **RGB:** `rgb(217, 119, 6)`
-- **HSL:** `hsl(32, 95%, 44%)`
+- **Light hex:** `#b45309` | **Dark hex:** `#f59e0b`
 - **Usage:** Pending status, caution alerts, non-critical warnings
-- **Common Pattern:** `bg-warning/10 text-warning` for badges
-- **Accessibility:** AA compliant on white backgrounds
+- **Common Pattern:** `bg-[color-mix(in_srgb,var(--color-warning)_10%,transparent)] text-theme-warning` for badges
+- **Accessibility:**
+  - Light `#b45309` on `#F1F3F7`: **4.52:1** ✓ AA (was `#d97706` = 3.14:1 ✗)
+  - Light `#b45309` on `#ffffff`: **5.02:1** ✓ AA
+  - Dark `#f59e0b` on `#242433`: **7.11:1** ✓ AAA (was `#d97706` = 3.2:1 ✗)
+  - Dark `#f59e0b` on `#2e2e3f`: **6.19:1** ✓ AA
 
 ### Error (Red)
 - **Token:** `--color-error`
-- **Hex:** `#FF0000`
-- **RGB:** `rgb(255, 0, 0)`
-- **HSL:** `hsl(0, 100%, 50%)`
+- **Light hex:** `#c0392b` | **Dark hex:** `#f87171`
 - **Usage:** Form validation errors, destructive actions, critical alerts
-- **Common Pattern:** `text-error border-error` for error states
-- **Accessibility:** AA compliant on white backgrounds
+- **Common Pattern:** `text-theme-error bg-[color-mix(in_srgb,var(--color-error)_10%,transparent)]` for error states
+- **Accessibility:**
+  - Light `#c0392b` on `#F1F3F7`: **4.90:1** ✓ AA (was `#FF0000` = harsh pure red)
+  - Light `#c0392b` on `#ffffff`: **5.44:1** ✓ AA
+  - Dark `#f87171` on `#242433`: **5.52:1** ✓ AA (was `#FF0000` = 3.9:1 ✗)
+  - Dark `#f87171` on `#2e2e3f`: **4.81:1** ✓ AA
 
 ---
 
@@ -133,7 +139,7 @@ background: linear-gradient(180deg, #F1F3F7 0%, #E5E7EB 100%);
 
 ### Success Gradient
 ```css
-background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success) 100%);
 ```
 **Usage:** Success banners, completion states
 
@@ -153,7 +159,7 @@ Use these opacity values for consistency:
 | `opacity-10` | `0.1` | Very transparent (backgrounds) |
 | `opacity-0` | `0` | Fully transparent |
 
-**Common Pattern:** `bg-success/10` = success color at 10% opacity
+**Common Pattern:** `bg-[color-mix(in_srgb,var(--color-success)_10%,transparent)]` = success color at 10% opacity
 
 ---
 
@@ -210,102 +216,134 @@ Use these opacity values for consistency:
 
 ## Accessibility Compliance
 
-All color combinations meet WCAG 2.1 standards:
+All color combinations meet WCAG 2.1 standards. Dark mode tokens are distinct from light mode — see `docs/design/contrast-report.md` for the full per-component audit.
 
-| Foreground | Background | Contrast | Level |
-|:-----------|:-----------|:---------|:------|
-| Text Primary | Background | 12.5:1 | AAA |
-| Text Secondary | Background | 4.8:1 | AA |
-| Primary | White | 4.6:1 | AA |
-| Primary Hover | White | 6.8:1 | AAA |
-| Success | White | 4.5:1 | AA |
-| Warning | White | 4.7:1 | AA |
-| Error | White | 5.3:1 | AA |
-| White | Secondary | 15.2:1 | AAA |
+All ratios verified by WCAG 2.1 relative-luminance formula. See `docs/design/contrast-report.md` for the full per-component audit.
+
+### Light Mode (on `#F1F3F7`)
+
+| Foreground | Background | Contrast | Level | Notes |
+|:-----------|:-----------|:---------|:------|:------|
+| Text Primary `#19213D` | `#F1F3F7` | 14.25:1 | AAA | ✅ |
+| Text Secondary `#6D758F` | `#F1F3F7` | 4.12:1 | — | ℹ️ Decorative/caption use only |
+| Primary `#149A9B` | `#F1F3F7` | 3.09:1 | UI | ✅ icon/border, non-text |
+| Success `#166534` | `#F1F3F7` | 6.42:1 | AA | ✅ |
+| Warning `#b45309` | `#F1F3F7` | 4.52:1 | AA | ✅ |
+| Error `#c0392b` | `#F1F3F7` | 4.90:1 | AA | ✅ |
+| White | Secondary `#002333` | 15.83:1 | AAA | ✅ |
+
+### Dark Mode (on `#242433`)
+
+| Foreground | Background | Contrast | Level | Notes |
+|:-----------|:-----------|:---------|:------|:------|
+| Text Primary `#f1f3f7` | `#242433` | 13.75:1 | AAA | ✅ |
+| Text Secondary `#b8bfd0` | `#242433` | 8.29:1 | AAA | ✅ |
+| Primary `#1fb8b9` | `#242433` | 6.26:1 | AA | ✅ |
+| Success `#4ade80` | `#242433` | 8.76:1 | AAA | ✅ |
+| Warning `#f59e0b` | `#242433` | 7.11:1 | AAA | ✅ |
+| Error `#f87171` | `#242433` | 5.52:1 | AA | ✅ |
 
 ---
 
-## Dark Mode (Future Consideration)
+## Dark Mode
 
-If implementing dark mode, use these adjustments:
+Dark mode is fully implemented. Tokens are defined in the `.dark` class in `src/app/globals.css`. See `docs/design/contrast-report.md` for the full WCAG AA audit of all dark mode token pairs.
 
 ### Dark Palette
 
-- **Background:** `#1a1a2e` (dark navy)
-- **Text Primary:** `#e5e7eb` (light gray)
-- **Text Secondary:** `#9ca3af` (medium gray)
-- **Dark Shadow:** `#0a0f1a` (deep void)
-- **Light Highlight:** `#1e2a4a` (subtle edge light)
-
-### Shadow Adjustments
-
-```css
-/* Dark mode raised shadow */
-box-shadow: 6px 6px 12px #0a0f1a, -1px -1px 12px #1e2a4a;
-
-/* Dark mode sunken shadow */
-box-shadow: inset 4px 4px 8px #0a0f1a, inset -2px -2px 8px #1e2a4a;
-```
-
----
-
-## Tailwind CSS Configuration
-
-Colors are defined in `tailwind.config.ts`:
-
-```typescript
-export default {
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          DEFAULT: '#149A9B',
-          hover: '#0d7377',
-        },
-        secondary: '#002333',
-        accent: '#15949C',
-        background: '#F1F3F7',
-        text: {
-          primary: '#19213D',
-          secondary: '#6D758F',
-        },
-        success: '#16a34a',
-        warning: '#d97706',
-        error: '#FF0000',
-      },
-    },
-  },
-};
-```
+- **bg-base:** `#242433`
+- **bg-elevated:** `#2e2e3f`
+- **bg-sunken:** `#1a1a26`
+- **Text Primary:** `#f1f3f7`
+- **Text Secondary:** `#b8bfd0`
+- **Primary:** `#1fb8b9`
+- **Success:** `#4ade80`
+- **Warning:** `#f59e0b`
+- **Error:** `#f87171`
+- **Dark Shadow:** `#1a1a26`
+- **Light Shadow:** `#2e2e3f`
 
 ---
 
 ## CSS Variables
 
-Colors are also available as CSS variables in `globals.css`:
+Semantic tokens are defined in `src/app/globals.css`. Light and dark values are distinct — the dark values use lighter tones to clear WCAG AA on the dark surface.
 
 ```css
-@theme {
-  --color-primary: #149A9B;
-  --color-primary-hover: #0d7377;
-  --color-secondary: #002333;
-  --color-accent: #15949C;
-  --color-background: #F1F3F7;
-  --color-text-primary: #19213D;
-  --color-text-secondary: #6D758F;
-  --color-success: #16a34a;
-  --color-warning: #d97706;
-  --color-error: #FF0000;
-}
+/* :root — light mode */
+--color-success: #166534;   /* 6.42:1 on #F1F3F7 ✓ AA (was #16a34a = 2.97:1 ✗) */
+--color-warning: #b45309;   /* 4.52:1 on #F1F3F7 ✓ AA */
+--color-error:   #c0392b;   /* 4.90:1 on #F1F3F7 ✓ AA */
+
+/* .dark — dark mode */
+--color-success: #4ade80;   /* 8.76:1 on #242433 ✓ AAA */
+--color-warning: #f59e0b;   /* 7.11:1 on #242433 ✓ AAA */
+--color-error:   #f87171;   /* 5.52:1 on #242433 ✓ AA  */
 ```
 
 **Usage:**
 ```css
 .custom-element {
   color: var(--color-primary);
-  background: var(--color-background);
+  background: var(--color-bg-base);
 }
 ```
+
+---
+
+## Generated Token Tables
+
+<!-- BEGIN GENERATED TOKEN TABLES -->
+
+### Color tokens
+
+Values are read from `src/app/globals.css` (`:root` for light, `.dark` for dark).
+
+| Token | Light | Dark | Tailwind class | Usage |
+|---|---|---|---|---|
+| `--color-bg-base` | `#F1F3F7` | `#242433` | `bg-bg-base` | Page background |
+| `--color-bg-elevated` | `#ffffff` | `#2e2e3f` | `bg-bg-elevated` | Cards, modals, elevated surfaces |
+| `--color-bg-sunken` | `#e8eaef` | `#1a1a26` | `bg-bg-sunken` | Inset areas, input backgrounds |
+| `--color-text-primary` | `#19213D` | `#f1f3f7` | `text-content-primary` | Headings, primary text |
+| `--color-text-secondary` | `#6D758F` | `#b8bfd0` | `text-content-secondary` | Body text, descriptions |
+| `--color-text-muted` | `#9ca3af` | `#6D758F` | `text-content-muted` | Placeholder text, hints |
+| `--color-primary` | `#149A9B` | `#1fb8b9` | `bg-theme-primary / text-theme-primary` | Primary buttons, links, accents |
+| `--color-primary-hover` | `#0d7377` | `#25d4d5` | `bg-theme-primary-hover` | Primary hover states |
+| `--color-secondary` | `#002333` | `#002333` | `bg-theme-secondary / text-theme-secondary` | Deep-navy accent (diagrams, icon tints) |
+| `--color-accent` | `#15949C` | `#15949C` | `text-theme-accent` | Accent highlights |
+| `--color-success` | `#166534` | `#4ade80` | `text-theme-success` | Success states |
+| `--color-warning` | `#b45309` | `#f59e0b` | `text-theme-warning` | Warning states |
+| `--color-error` | `#c0392b` | `#f87171` | `text-theme-error` | Error states |
+| `--color-border` | `#d1d5db` | `#3d3d5c` | `border-theme-border` | Borders, dividers |
+| `--shadow-dark` | `#d1d5db` | `#1a1a26` | `var(--shadow-dark)` | Dark shadow in neumorphic effects |
+| `--shadow-light` | `#ffffff` | `#2e2e3f` | `var(--shadow-light)` | Light shadow in neumorphic effects |
+
+### Shadow tokens
+
+Values are read from the `boxShadow` entries in `tailwind.config.ts`.
+
+| Utility | Value |
+|---|---|
+| `shadow-neu-raised` | `6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light)` |
+| `shadow-neu-raised-hover` | `2px 2px 4px var(--shadow-dark), -2px -2px 4px var(--shadow-light)` |
+| `shadow-neu-raised-l2` | `12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light)` |
+| `shadow-neu-raised-sm` | `3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light)` |
+| `shadow-neu-sunken` | `inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light)` |
+| `shadow-neu-sunken-subtle` | `inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light)` |
+
+### Radius tokens
+
+The Review bar allows only these four radii. `tailwind.config.ts` does not
+extend `borderRadius`, so these are the Tailwind 3 default sizes.
+
+| Utility | Size | Usage |
+|---|---|---|
+| `rounded-xl` | 12px | Controls |
+| `rounded-2xl` | 16px | Inner cards, code, callouts, tables |
+| `rounded-3xl` | 24px | Section cards |
+| `rounded-full` | 9999px | Badges, avatars |
+
+<!-- END GENERATED TOKEN TABLES -->
 
 ---
 
@@ -314,16 +352,19 @@ Colors are also available as CSS variables in `globals.css`:
 ### Visual Reference
 
 ```
-Primary:         ████ #149A9B
-Primary Hover:   ████ #0d7377
-Secondary:       ████ #002333
-Accent:          ████ #15949C
-Background:      ████ #F1F3F7
-Text Primary:    ████ #19213D
-Text Secondary:  ████ #6D758F
-Success:         ████ #16a34a
-Warning:         ████ #d97706
-Error:           ████ #FF0000
+Primary:              ████ #149A9B
+Primary Hover:        ████ #0d7377
+Secondary:            ████ #002333
+Accent:               ████ #15949C
+Background:           ████ #F1F3F7
+Text Primary:         ████ #19213D
+Text Secondary:       ████ #6D758F
+Success (light):      ████ #166534
+Success (dark):       ████ #4ade80
+Warning (light):      ████ #b45309
+Warning (dark):       ████ #f59e0b
+Error (light):        ████ #c0392b
+Error (dark):         ████ #f87171
 ```
 
 ---
@@ -331,4 +372,3 @@ Error:           ████ #FF0000
 **Next Steps:**
 - Apply colors in [Visual DNA](./visual-dna.md)
 - Use with neumorphic shadows in [Neumorphism Guide](./neumorphism.md)
-- See component examples in [Components Guide](./components.md)

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, Rocket } from "lucide-react";
+import { Home } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { SidebarSection } from "@/lib/mdx";
 import { getIcon, iconNameForDocsSlug } from "@/lib/icon-registry";
@@ -48,7 +48,7 @@ export function DocsSidebar({ nav, className }: DocsSidebarProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          <div className="px-5 mb-3 text-[11px] font-extrabold uppercase tracking-widest text-content-primary">
+          <div className="px-5 mb-3 text-xs font-extrabold uppercase tracking-widest text-content-primary">
             Overview
           </div>
           <ul role="list" className="space-y-1.5">
@@ -57,12 +57,6 @@ export function DocsSidebar({ nav, className }: DocsSidebarProps) {
               icon={<Home size={16} className={pathname === "/docs" ? "text-theme-primary" : "text-content-secondary"} />}
               label="Home"
               isActive={pathname === "/docs"}
-            />
-            <SidebarItem
-              href="/docs/getting-started"
-              icon={<Rocket size={16} className={pathname === "/docs/getting-started" ? "text-theme-primary" : "text-content-secondary"} />}
-              label="Welcome"
-              isActive={pathname === "/docs/getting-started"}
             />
           </ul>
         </motion.div>
@@ -81,7 +75,7 @@ export function DocsSidebar({ nav, className }: DocsSidebarProps) {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 * (sectionIdx + 1), ease: "easeOut" }}
               >
-                <div className="px-5 mb-3 text-[11px] font-extrabold uppercase tracking-widest text-content-primary">
+                <div className="px-5 mb-3 text-xs font-extrabold uppercase tracking-widest text-content-primary">
                   {section.section}
                 </div>
                 <ul role="list" className="space-y-1.5">
@@ -111,7 +105,7 @@ function SidebarItem({ href, icon, label, isActive }: { href: string; icon: Reac
         href={href}
         aria-current={isActive ? "page" : undefined}
         className={cn(
-          "group relative flex items-center gap-3.5 text-sm py-2.5 px-5 rounded-2xl transition-[color,box-shadow] duration-300 font-medium overflow-hidden",
+          "group relative flex items-center gap-3.5 text-sm py-2.5 px-5 min-h-11 rounded-2xl transition-[color,box-shadow] duration-300 font-medium overflow-hidden",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base",
           isActive
             ? "text-theme-primary"
@@ -133,7 +127,7 @@ function SidebarItem({ href, icon, label, isActive }: { href: string; icon: Reac
         )}
 
         {/* Hover Highlight */}
-        <div className="absolute inset-0 bg-theme-primary/0 group-hover:bg-theme-primary/5 transition-colors z-0" />
+        <div className="absolute inset-0 bg-transparent group-hover:bg-[color-mix(in_srgb,var(--color-primary)_5%,transparent)] transition-colors duration-200 z-0" />
 
         <span className={cn(
           "relative z-10 flex-shrink-0 transition-[color,transform] duration-300",
@@ -147,19 +141,6 @@ function SidebarItem({ href, icon, label, isActive }: { href: string; icon: Reac
         )}>
           {label}
         </span>
-
-        {/* Subtle Indicator bar */}
-        {isActive && (
-          <motion.div
-            layoutId="sidebar-indicator"
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-theme-primary rounded-full"
-            transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 35
-            }}
-          />
-        )}
       </Link>
     </li>
   );

@@ -25,6 +25,55 @@ const corsHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/architecture",
+        destination: "/product#architecture",
+        permanent: true,
+      },
+      {
+        source: "/blueprint",
+        destination: "/product#orchestrator",
+        permanent: true,
+      },
+      {
+        source: "/docs/guide/deposits",
+        destination: "/docs/guide/withdrawals",
+        permanent: true,
+      },
+      {
+        source: "/docs/api-reference/wallet-topups",
+        destination: "/docs/api-reference/payouts",
+        permanent: true,
+      },
+      {
+        source: "/docs/sdk/topups",
+        destination: "/docs/sdk/payouts",
+        permanent: true,
+      },
+      {
+        source: "/docs/guide/airtm",
+        destination: "/docs/guide/withdrawals",
+        permanent: true,
+      },
+      {
+        source: "/docs/sdk/resources",
+        destination: "/docs/sdk/quick-start",
+        permanent: true,
+      },
+      {
+        source: "/docs/guide/events",
+        destination: "/docs/api-reference/events",
+        permanent: true,
+      },
+      {
+        source: "/docs/guide/errors",
+        destination: "/docs/sdk/errors",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     const securityHeaders = getSecurityHeaders();
     return [
